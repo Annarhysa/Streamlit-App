@@ -6,8 +6,8 @@ def load_data(query):
         user = 'anna21',
         password = 'Bombay@123',
         account = 'ZXNUXVJ.SA13369',
-        database = 'weather',
-        schema = 'public',     
+        database = 'SNOWFLAKE_SAMPLE_DATA',
+        schema = 'WEATHER',     
     )
 
     cur = conn.cursor()
@@ -17,11 +17,9 @@ def load_data(query):
     return df_data
 
 def main():
-    df_data = load_data("SELECT "+ 
-                        "date, tradingpair, cose, ma_10, ma_20, ma_30, ma_50, ma_100, ma_200, timeframe "+
-                        "FROM transform.transform_main "+
-                        "WHERE tradingpair = 'BTC-USD" +
-                        "order by tradingpair, date;").set_index('DATE')
+    df_data = load_data( " SELECT AVG(temperature) AS avg_temp
+                        FROM weather_data
+                        WHERE date BETWEEN '2022-01-01' AND '2022-01-31')
     
     
     st.header("Visualizing Crypto Data")
